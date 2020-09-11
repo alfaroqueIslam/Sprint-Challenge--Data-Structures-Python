@@ -22,6 +22,8 @@ class RingBuffer:
             x = self.data.index(self.old)
             if x == self.data.index(self.data[-1]):
                 self.old = self.data[0]
+                self.data[0] = item
+                self.old = self.data[0]
                 return
             self.data[x+1] = item
             self.old = item

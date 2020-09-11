@@ -30,14 +30,15 @@ class BSTNode:
     def contains(self, target):
         if target < self.value:
             if self.left is None:
-                return False
+                return
+                #return False
             return self.left.contains(target)
         elif target > self.value:
             if self.right is None:
                 return False
             return self.right.contains(target)
         else:
-            return True
+            return self.value
 
     # Return the maximum value found in the tree
     def get_max(self):
@@ -68,7 +69,17 @@ duplicates = []  # Return the list of duplicates in this data structure
 
 # Replace the nested for loops below with your improvements
 
-duplicates = set(names_1).intersection(names_2)
+# duplicates = set(names_1).intersection(names_2)
+
+bn = BSTNode(names_2[0])
+
+for i in names_2[1:]:
+    bn.insert(i)
+
+for s in names_1:
+   if bn.contains(s) == s:
+       duplicates.append(s)
+
 
 # for name_1 in names_1:
 #     for name_2 in names_2:

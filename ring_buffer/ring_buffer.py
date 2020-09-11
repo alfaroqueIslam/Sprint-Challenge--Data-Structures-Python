@@ -3,33 +3,36 @@ class RingBuffer:
         self.capacity = capacity
         self.data = [None for i in range(capacity)]
         self.old = self.data[0]
-        self.old1 = None
+        self.x = 0
   
     def append(self, item):
-        lst = []
         if self.data[0] == None:
             self.data.pop(0)
             self.data.append(item)
             if self.data[0] != None:
                 self.old = self.data[0]
             return
-        for n in self.data:
-            if n != None:
-                lst.append(n)
-        if len(lst) == self.capacity:
-            if self.data[0] == self.old:
-                self.data[0] = item
-                self.old1 = item
+
+        if self.data[0] == self.old and self.x == 0:
+            self.data[0] = item
+            self.old = item
+            self.x = 1
+            return
+        else:
+            x = self.data.index(self.old)
+            if x == self.data.index(self.data[-1]):
+                self.old = self.data[0]
                 return
-            else:
-                x = lst.index(self.old1)
-                self.data[x+1] = item
-                self.old = item
+            self.data[x+1] = item
+            self.old = item
+            return
 
     def get(self):
         lst = []
-        for n in self.data:
-            if n != None:
-                lst.append(n)
+        if self.data[0] == None:
+            for n in self.data:
+                if n != None:
+                    lst.append(n)
 
-        return lst
+            return lst
+        return self.data
